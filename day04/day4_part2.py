@@ -101,9 +101,14 @@ if __name__ == '__main__':
     # Check for difference and count
     valid_counter = 0
     invalid_counter = 0
+    
+    # Lists holding valid and invalid records
     fields_present = []
     fields_not_present = []
-
+    valid_records = []
+    invalid_records = []
+    
+    # Find the records without the right fields
     for record in records:
         valid_record = validate_record(record)
         if valid_record:
@@ -114,8 +119,6 @@ if __name__ == '__main__':
             fields_not_present.append(record)
     
     # Just work with the records with all fields present
-    valid_records = []
-    invalid_records = []
     for record in fields_present:
         
         # Validate birth year
@@ -130,4 +133,30 @@ if __name__ == '__main__':
         if not validate_year(record['eyr'], 2020, 2030):
             invalid_records.append(record)
             continue
+        # Validate height
+        if not validate_height(record['hgt']):
+            invalid_records.append(record)
+            continue
+        # Validate hair colour
+        if not validate_colour(record['hcl']):
+            invalid_records.append(record)
+            continue
+        # Validate eye colour
+        if not validate_eye_colour(record['ecl']):
+            invalid_records.append(record)
+            continue
+        # Validate PID
+        if not validate_pid(record['pid']):
+            invalid_records.append(record)
+            continue
+        
+        valid_records.append(record)
+    
+    print ("Total Records: ", len(records))
+    print ("Fields valid: ", len(fields_present))
+    print ("\tValid: ", len(valid_records))
+    print ("\tInvalid: ", len(invalid_records))
+    print ("Fields invalid: ", len(fields_not_present))
+    
+
         
